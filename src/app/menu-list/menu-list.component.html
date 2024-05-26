@@ -1,0 +1,14 @@
+<p>menu-list works!</p>
+<!-- <ul>
+    <li *ngFor="let item of menu">
+        {{ item.name }} - {{ item.price | currency:'INR' }}
+    </li>
+</ul> -->
+
+<!-- menu-list.component.html -->
+<ul class="list-group">
+    <li *ngFor="let item of menu" class="list-group-item d-flex justify-content-between align-items-center">
+        <span>{{ item.name }} - {{ item.price | currency:'INR' }}</span>
+        <button class="btn btn-primary btn-sm" (click)="addToOrder(item)">Add to Order</button>
+    </li>
+</ul>
