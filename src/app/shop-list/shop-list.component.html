@@ -28,7 +28,7 @@
 <!-- shop-list.component.html -->
 <div class="container">
     <div class="row">
-        <div class="col-8">
+        <div class="col-sm-12 col-md-8">
             <div *ngIf="(shops$ | async)?.length > 0">
                 <h2 class="mt-4">Available Shops in the Food Court</h2>
                 <div *ngFor="let shop of (shops$ | async)" class="card mb-4">
