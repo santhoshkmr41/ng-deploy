@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, effect, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ShopService } from '../shop.service';
@@ -15,42 +15,16 @@ import { OrderListComponent } from '../order-list/order-list.component';
   styleUrl: './shop-list.component.scss'
 })
 export class ShopListComponent implements OnInit {
-  // shops: any[] = [];
-
-  // constructor(private shopService: ShopService) { }
-
-  // ngOnInit(): void {
-  //   this.getShopsList();
-  // }
-
-  // getShopsList() {
-  //   this.shopService.getShops().subscribe(data => {
-  //     this.shops = data;
-  //     this.shops.forEach(shop => {
-  //       this.shopService.getMenuByShop(shop.id).subscribe(menuData => {
-  //         shop.menu = menuData;
-  //       });
-  //     });
-  //   });
-  // }
-
-  // getMenus(shopId: string): void {
-  //   // return this.stateService.getShopMenus(shopId)();
-  // }
-
-  // addToOrder(item: any) {
-  //   // this.stateService.addToOrder(item);
-  // }
-
-  // placeOrder() {
-  //   // this.stateService.placeOrder();
-  // }
-
-
   shops$: Observable<any> = this.stateService.shops$;
   currentOrder$: Observable<any[]> = this.stateService.currentOrder$;
 
-  constructor(private stateService: StateService) { }
+  selectedShop = signal({ id: '', name: null });
+
+  constructor(public stateService: StateService) {
+    effect(() => {
+      console.log('Count changed', this.selectedShop());
+    });
+  }
 
   ngOnInit(): void {
     this.stateService.fetchShops();
@@ -66,6 +40,11 @@ export class ShopListComponent implements OnInit {
 
   placeOrder() {
     this.stateService.placeOrder();
+  }
+
+
+  expandShopMenus(shop: any) {
+    this.selectedShop.set(shop);
   }
 
 }

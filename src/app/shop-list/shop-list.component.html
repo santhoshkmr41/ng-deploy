@@ -1,41 +1,38 @@
-<!-- @if (shops.length > 0) {
+@if (selectedShop().id) {
 
-<h2 class="mt-4">Available Shops in the Food Court</h2>
+<div class="container">
+    <h2 class="mt-4"><b>{{selectedShop().name}}</b> - Menu Items</h2>
 
-<ul>
-    @for (shop of shops; track $index) {
-    <div class="card mb-4">
-        <div class="card-body">
-            <h3 class="card-title">{{ shop.name }}</h3>
-            <app-menu-list [menu]="shop.menu" (addItem)="addToOrder($event)"></app-menu-list>
+    <div class="row">
+        <div class="col-sm-12 col-md-8 mb-3">
+            <app-menu-list [menu]="(getMenus(selectedShop().id) | async) || []"
+                (addItem)="addToOrder($event)"></app-menu-list>
         </div>
+
+        <div class="col">
+            <app-order-list [order]="(currentOrder$ | async) || []" (placeOrder)="placeOrder()"></app-order-list>
+
+        </div>
+
     </div>
-    <li>
-        <h3>{{ shop.name }}</h3>
-        <app-menu-list [menu]="shop.menu"></app-menu-list>
-    </li>
-    }
-</ul>
-
-}
-@else {
-<div class="alert alert-info mt-4">
-    No shops available at the moment.
 </div>
-} -->
-
-
-<!-- shop-list.component.html -->
+}
+@else{
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-8">
             <div *ngIf="(shops$ | async)?.length > 0">
                 <h2 class="mt-4">Available Shops in the Food Court</h2>
-                <div *ngFor="let shop of (shops$ | async)" class="card mb-4">
+                <div *ngFor="let shop of (shops$ | async)" class="card mb-4" (click)="expandShopMenus(shop)">
                     <div class="card-body">
                         <h3 class="card-title">{{ shop.name }}</h3>
+
+                        @if (shop.isExpanded) {
                         <app-menu-list [menu]="(getMenus(shop.id) | async) || []"
                             (addItem)="addToOrder($event)"></app-menu-list>
+                        }
+
+
                     </div>
                 </div>
             </div>
@@ -43,13 +40,10 @@
                 No shops available at the moment.
             </div>
         </div>
-        <div class="col mt-5">
-            <h2 class="mt-4"></h2>
-            <app-order-list [order]="(currentOrder$ | async) || []" (placeOrder)="placeOrder()"></app-order-list>
 
-        </div>
     </div>
 
 
 
 </div>
+}

@@ -58,4 +58,10 @@ export class StateService {
       this.currentOrderSubject.next([]);
     });
   }
+
+  expandShopMenus(shop: any) {
+    this.shops$.subscribe((Shops: any) => {
+      Shops.map((item: any) => { item.isExpanded = (item.id === shop.id) ? true : false; return item; })
+    });
+  }
 }
