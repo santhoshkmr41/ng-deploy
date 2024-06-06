@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ShopListComponent } from './shop-list/shop-list.component';
+import { MainShopsListComponent } from './components/main-shops-list/main-shops-list.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ShopListComponent],
+  imports: [RouterOutlet, ShopListComponent,MainShopsListComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
